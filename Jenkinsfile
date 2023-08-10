@@ -13,6 +13,8 @@ pipeline {
     environment {
         DATE = new Date().format('yy.M')
         TAG = "${DATE}.${BUILD_NUMBER}"
+        dockerimagename = "pancajuntak/hello-world"
+        dockerImage = ""
     }
     stages {
         stage('Checkout Source') {
@@ -21,7 +23,7 @@ pipeline {
                 credentialsId: 'Github Connection'
             }
         }
-        stage ('Build') {
+        stage ('Build Project') {
             steps {
                 sh 'mvn clean install -DskipTests'
             }
@@ -29,14 +31,17 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    docker.build("pancaaa/hello-world:${TAG}")
+                    dockerImage = docker.build dockerimagename
                 }
             }
         }
 	    stage('Pushing Docker Image to Dockerhub') {
+            environment {
+               registryCredential = 'dockerhublogin'
+            }
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker_credential') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'registryCredential') {
                         docker.image("pancaaa/hello-world:${TAG}").push()
                         docker.image("pancaaa/hello-world:${TAG}").push("latest")
                     }
