@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  labels:
+    run: hello-world
+  name: hello-world
+  namespace: foo
+spec:
+  containers:
+  - image: pancaaa/hello-world
+    name: hello-docker
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
