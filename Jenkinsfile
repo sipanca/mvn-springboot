@@ -1,10 +1,10 @@
 pipeline {
-    agent {
-    kubernetes {
-      	cloud 'devops-cluster-dev'
-      	defaultContainer 'worker'
-      }
-    }
+    // agent {
+    // kubernetes {
+    //   	cloud 'devops-cluster-dev'
+    //   	defaultContainer 'worker'
+    //   }
+    // }
     environment {
         DATE = new Date().format('yy.M')
         TAG = "${DATE}.${BUILD_NUMBER}"
@@ -33,7 +33,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_credential') {
                         docker.image("pancaaa/hello-world:${TAG}").push()
-                        docker.image("pancaaan/hello-world:${TAG}").push("latest")
+                        docker.image("pancaaa/hello-world:${TAG}").push("latest")
                     }
                 }
             }
