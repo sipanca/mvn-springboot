@@ -1,5 +1,5 @@
 pipeline {
-    // agent {
+    agent any //{
     // kubernetes {
     //   	cloud 'devops-cluster-dev'
     //   	defaultContainer 'worker'
