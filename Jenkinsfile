@@ -42,8 +42,9 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'registryCredential') {
-                        docker.image("pancaaa/hello-world:${TAG}").push()
-                        docker.image("pancaaa/hello-world:${TAG}").push("latest")
+                        // docker.image("pancaaa/hello-world:${TAG}").push()
+                        // docker.image("pancaaa/hello-world:${TAG}").push("latest")
+                        docker.image.push("latest")
                     }
                 }
             }
@@ -52,7 +53,7 @@ pipeline {
             steps {
                 sh "docker stop hello-world | true"
                 sh "docker rm hello-world | true"
-                sh "docker run --name hello-world -d -p 9004:8080 panca/hello-world:${TAG}"
+                sh "docker run --name hello-world -d -p 9004:8080 panca/hello-world:latest"
             }
         }
     }
