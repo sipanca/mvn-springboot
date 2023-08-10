@@ -15,7 +15,7 @@ pipeline {
         TAG = "${DATE}.${BUILD_NUMBER}"
         dockerimagename = "pancaaa/hello-world"
         dockerImage = ""
-        registryCredential = 'registry-push'
+        registryCredential = 'dockerhublogin'
     }
     stages {
         stage('Checkout Source') {
@@ -36,22 +36,21 @@ pipeline {
                 }
             }
         }
-	    // stage('Pushing Image') {
-        //     steps{
-        //         script {
-        //             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-        //             dockerImage.push("latest")
-        //             }
-        //         }   
-        //     }
-        // }
+	    stage('Pushing Image') {
+            steps{
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                    dockerImage.push("latest")
+                    }
+                }   
+            }
+        }
 
         stage('Deploy to Kube Cluster  '){
             steps{
                 script{
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/config config current-context'
-                    sh 'pwd'
-                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/config apply -f ./deployment.yml'        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config apply -f ./deployment.yml'        
                 }
             }
         }
