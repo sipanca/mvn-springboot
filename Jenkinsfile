@@ -35,18 +35,16 @@ pipeline {
                 }
             }
         }
-	    stage('Pushing Docker Image to Dockerhub') {
+	    stage('Pushing Image') {
             environment {
                registryCredential = 'dockerhublogin'
             }
-            steps {
+            steps{
                 script {
-                     docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-                        // docker.image("pancaaa/hello-world:${TAG}").push()
-                        // docker.image("pancaaa/hello-world:${TAG}").push("latest")
-                        docker.image.push("latest")
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+                    dockerImage.push("latest")
                     }
-                }
+                }   
             }
         }
         // stage('Deploy'){
