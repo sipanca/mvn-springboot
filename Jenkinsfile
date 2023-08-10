@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
-                git url: 'https://github.com/war3wolf/mvn-springboot.git', branch: 'main',
+                git url: 'https://github.com/war3wolf/mvn-springboot.git', branch: 'master',
                 credentialsId: 'Github Connection'
             }
         }
@@ -49,11 +49,19 @@ pipeline {
                 }
             }
         }
-        stage('Deploy'){
-            steps {
-                sh "docker stop hello-world | true"
-                sh "docker rm hello-world | true"
-                sh "docker run --name hello-world -d -p 9004:8080 panca/hello-world:latest"
+        // stage('Deploy'){
+        //     steps {
+        //         sh "docker stop hello-world | true"
+        //         sh "docker rm hello-world | true"
+        //         sh "docker run --name hello-world -d -p 9004:8080 panca/hello-world:latest"
+        //     }
+        // }
+
+        stage('Deploy to Kube Cluster  '){
+            steps{
+                script{
+                    kubernetesDeploy(configs: "deployment.yaml", "service.yaml")        
+                }
             }
         }
     }
