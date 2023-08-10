@@ -1,7 +1,7 @@
 pipeline {
     agent {
     kubernetes {
-      	cloud 'kubernetes'
+      	cloud 'devops-cluster-dev'
       	defaultContainer 'worker'
       }
     }
