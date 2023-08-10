@@ -15,7 +15,7 @@ pipeline {
         TAG = "${DATE}.${BUILD_NUMBER}"
         dockerimagename = "pancaaa/hello-world"
         dockerImage = ""
-        registryCredential = 'dockerhublogin'
+        registryCredential = 'registry-push'
     }
     stages {
         stage('Checkout Source') {
