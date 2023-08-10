@@ -15,6 +15,7 @@ pipeline {
         TAG = "${DATE}.${BUILD_NUMBER}"
         dockerimagename = "pancajuntak/hello-world"
         dockerImage = ""
+        registryCredential = 'dockerhublogin'
     }
     stages {
         stage('Checkout Source') {
@@ -36,9 +37,6 @@ pipeline {
             }
         }
 	    stage('Pushing Image') {
-            environment {
-               registryCredential = 'registrylogin'
-            }
             steps{
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
@@ -47,13 +45,6 @@ pipeline {
                 }   
             }
         }
-        // stage('Deploy'){
-        //     steps {
-        //         sh "docker stop hello-world | true"
-        //         sh "docker rm hello-world | true"
-        //         sh "docker run --name hello-world -d -p 9004:8080 panca/hello-world:latest"
-        //     }
-        // }
 
         stage('Deploy to Kube Cluster  '){
             steps{
