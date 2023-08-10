@@ -41,7 +41,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'registryCredential') {
+                     docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
                         // docker.image("pancaaa/hello-world:${TAG}").push()
                         // docker.image("pancaaa/hello-world:${TAG}").push("latest")
                         docker.image.push("latest")
