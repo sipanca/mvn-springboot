@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+    kubernetes {
+      	cloud 'kubernetes'
+      	defaultContainer 'worker'
+      }
+    
     tools {
         maven 'maven-3.6.3' 
     }
