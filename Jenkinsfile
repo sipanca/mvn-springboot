@@ -6,9 +6,9 @@ pipeline {
     //   }
     // }
 
-    // tools{
-    //     maven '3.9.4'
-    // }
+    tools{
+        maven 'Maven 3.9.4'
+    }
 
     environment {
         DATE = new Date().format('yy.M')
