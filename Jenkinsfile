@@ -50,7 +50,7 @@ pipeline {
             steps{
                 script{
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/config config current-context'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config apply -f deployment.yml'        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config apply -f ./deployment.yml'        
                 }
             }
         }
