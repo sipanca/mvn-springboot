@@ -13,7 +13,7 @@ pipeline {
     environment {
         DATE = new Date().format('yy.M')
         TAG = "${DATE}.${BUILD_NUMBER}"
-        dockerimagename = "pancajuntak/hello-world"
+        dockerimagename = "pancaaa/hello-world"
         dockerImage = ""
         registryCredential = 'dockerhublogin'
     }
