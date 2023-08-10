@@ -36,20 +36,21 @@ pipeline {
                 }
             }
         }
-	    stage('Pushing Image') {
-            steps{
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                    dockerImage.push("latest")
-                    }
-                }   
-            }
-        }
+	    // stage('Pushing Image') {
+        //     steps{
+        //         script {
+        //             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+        //             dockerImage.push("latest")
+        //             }
+        //         }   
+        //     }
+        // }
 
         stage('Deploy to Kube Cluster  '){
             steps{
                 script{
-                    kubernetesDeploy(configs: "deployment.yaml", "service.yaml")        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config config current-context'
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config apply -f deployment.yml'        
                 }
             }
         }
