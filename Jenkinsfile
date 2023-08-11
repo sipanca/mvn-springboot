@@ -26,6 +26,7 @@ pipeline {
         }
         stage ('Build Project') {
             steps {
+                sh 'mvn package spring-boot:repackage'
                 sh 'mvn clean install -DskipTests'
             }
         }
