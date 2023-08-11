@@ -53,7 +53,7 @@
                 <configuration>
                     <archive>
                     <manifest>
-                        <mainClass>com.javahungry.Demo</mainClass>
+                        <mainClass>com.example</mainClass>
                     </manifest>
                     </archive>
                 </configuration>
