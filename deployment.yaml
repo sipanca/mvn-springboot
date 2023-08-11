@@ -5,6 +5,7 @@ metadata:
     run: hello-world
   name: hello-world
 spec:
+  replicas: 3
   containers:
   - image: pancaaa/hello-world:latest
     name: hello-docker
