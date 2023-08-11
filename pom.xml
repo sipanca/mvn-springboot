@@ -34,6 +34,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>4.0.1</version>  
                 <configuration>
                     <mainClass>com.baeldung.demo.DemoApplication</mainClass>
                     <layout>JAR</layout>
