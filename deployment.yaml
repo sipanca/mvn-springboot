@@ -15,6 +15,7 @@ spec:
       containers:
       - name: hello-world
         image: pancaaa/hello-world:latest
+        imagePullPolicy: Always
         resources:
           limits:
             memory: "128Mi"
