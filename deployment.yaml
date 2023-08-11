@@ -8,6 +8,8 @@ spec:
   containers:
   - image: pancaaa/hello-world:latest
     name: hello-docker
+    ports:
+    - containerPort: 80
     resources: {}
   dnsPolicy: ClusterFirst
   restartPolicy: Never
