@@ -49,9 +49,9 @@ pipeline {
         stage('Deploy to Kube Cluster  '){
             steps{
                 script{
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config config current-context'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/deployment.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/service.yaml'        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/deployment.yaml'
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/service.yaml'        
                 }
             }
         }
