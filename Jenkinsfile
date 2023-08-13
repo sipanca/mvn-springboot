@@ -31,22 +31,22 @@ pipeline {
                 sh 'mvn clean install -DskipTests'
             }
         }
-        stage('Docker Build') {
-            steps {
-                script {
-                    dockerImage = docker.build dockerimagename
-                }
-            }
-        }
-	    stage('Pushing Image') {
-            steps{
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                    dockerImage.push("latest")
-                    }
-                }   
-            }
-        }
+        // stage('Docker Build') {
+        //     steps {
+        //         script {
+        //             dockerImage = docker.build dockerimagename
+        //         }
+        //     }
+        // }
+	    // stage('Pushing Image') {
+        //     steps{
+        //         script {
+        //             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+        //             dockerImage.push("latest")
+        //             }
+        //         }   
+        //     }
+        // }
 
         stage('Deploy to Kube Cluster  '){
             steps{
