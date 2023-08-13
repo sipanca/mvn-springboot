@@ -11,12 +11,12 @@ pipeline {
     }
 
     environment {
-        DATE = new Date().format('yy.M')
-        TAG = "${DATE}.${BUILD_NUMBER}"
+        // DATE = new Date().format('yy.M')
+        // TAG = "${DATE}.${BUILD_NUMBER}"
         dockerimagename = "pancaaa/springboot-app"
         dockerImage = ""
         registryCredential = 'dockerhublogin'
-        gitUrl = "https://github.com/war3wolf/mvn-springboot.git"
+        gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
         gitBranch = 'staging'
     }
     stages {
