@@ -23,9 +23,9 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 sh 'rm -rf *'
-                url: gitUrl,
                 git branch: gitBranch,
                 credentialsId: 'Github Connection'
+                url: gitUrl
             }
         }
         stage ('Build Project') {
