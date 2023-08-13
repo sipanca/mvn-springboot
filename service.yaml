@@ -9,8 +9,8 @@ spec:
       targetPort: 8080
   selector:
     app: hello-world
-  type: ClusterIP
+  # type: ClusterIP
 
-  # type: LoadBalancer
-  # externalIPs:
-  # - 172.16.10.2
+  type: LoadBalancer
+  externalIPs:
+  - 10.111.13.16
