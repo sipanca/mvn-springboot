@@ -16,12 +16,15 @@ pipeline {
         dockerimagename = "pancaaa/springboot-app"
         dockerImage = ""
         registryCredential = 'dockerhublogin'
+        gitUrl = "https://github.com/war3wolf/mvn-springboot.git"
+        gitBranch = 'staging'
     }
     stages {
         stage('Checkout Source') {
             steps {
-                sh 'rm -rf'
-                git url: 'https://github.com/war3wolf/mvn-springboot.git', branch: 'staging',
+                sh 'rm -rf *'
+                url: gitUrl,
+                git branch: gitBranch,
                 credentialsId: 'Github Connection'
             }
         }
@@ -54,8 +57,8 @@ pipeline {
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/deployment.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/service.yaml'        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_staging/deployment.yaml'
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_staging/service.yaml'        
                 }
             }
         }
