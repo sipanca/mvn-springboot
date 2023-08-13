@@ -1,5 +1,5 @@
-## Dockerfile for project
-FROM openjdk:8-jre
-ADD target/myproject-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 80
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+FROM openjdk:8               
+VOLUME /tmp                   
+EXPOSE 8080                   
+ADD target/spring-boot-complete-0.0.1-SNAPSHOT.jar spring-boot-complete-0.0.1-SNAPSHOT.jar 
+ENTRYPOINT ["java","-jar","/spring-boot-complete-0.0.1-SNAPSHOT.jar"] 
