@@ -6,7 +6,7 @@ spec:
   selector:
     app: hello-world
   ports:
-  - port: 80
+  - port: 8082
     targetPort: 8080
   type: LoadBalancer
   externalIPs:
