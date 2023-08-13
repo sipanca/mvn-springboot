@@ -1,4 +1,4 @@
-FROM openjdk:8               
+FROM openjdk:9        
 VOLUME /tmp                   
 EXPOSE 8080                   
 ADD target/spring-boot-complete-0.0.1-SNAPSHOT.jar spring-boot-complete-0.0.1-SNAPSHOT.jar 
