@@ -21,7 +21,7 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 sh 'rm -rf'
-                git url: 'https://github.com/war3wolf/mvn-springboot.git', branch: 'master',
+                git url: 'https://github.com/war3wolf/mvn-springboot.git', branch: 'staging',
                 credentialsId: 'Github Connection'
             }
         }
