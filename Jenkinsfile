@@ -16,8 +16,8 @@ pipeline {
         dockerimagename = "pancaaa/springboot-app"
         dockerImage = ""
         registryCredential = 'dockerhublogin'
-        
-        gitUrl = 'https://github.com/war3wolf/mvn-springboot.git',
+
+        gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
         gitBranch = 'staging'
     }
     stages {
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh 'rm -rf *'
                 git branch: gitBranch,
-                credentialsId: 'Github Connection'
+                credentialsId: 'Github Connection',
                 url: gitUrl
             }
         }
