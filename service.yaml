@@ -3,11 +3,14 @@ kind: Service
 metadata:
   name: hello-world
 spec:
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8080
   selector:
     app: hello-world
-  ports:
-  - port: 8082
-    targetPort: 8080
-  type: LoadBalancer
-  externalIPs:
-  - 172.16.10.2
+  type: ClusterIP
+
+  # type: LoadBalancer
+  # externalIPs:
+  # - 172.16.10.2
