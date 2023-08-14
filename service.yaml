@@ -12,5 +12,5 @@ spec:
   # type: ClusterIP
 
   type: LoadBalancer
-  externalIPs:
-  - 10.111.13.16
+  # externalIPs:
+  # - 10.111.13.16
