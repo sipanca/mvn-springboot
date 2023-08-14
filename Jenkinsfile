@@ -13,12 +13,13 @@ pipeline {
     environment {
         // DATE = new Date().format('yy.M')
         // TAG = "${DATE}.${BUILD_NUMBER}"
+        
         dockerimagename = "pancaaa/springboot-app"
         dockerImage = ""
         registryCredential = 'dockerhublogin'
 
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
-        gitBranch = 'staging'
+        gitBranch = 'master'
     }
     stages {
         stage('Checkout Source') {
@@ -35,22 +36,22 @@ pipeline {
                 sh 'mvn clean install -DskipTests'
             }
         }
-        // stage('Docker Build') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build dockerimagename
-        //         }
-        //     }
-        // }
-	    // stage('Pushing Image') {
-        //     steps{
-        //         script {
-        //             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-        //             dockerImage.push("latest")
-        //             }
-        //         }   
-        //     }
-        // }
+        stage('Docker Build') {
+            steps {
+                script {
+                    dockerImage = docker.build dockerimagename
+                }
+            }
+        }
+	    stage('Pushing Image') {
+            steps{
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                    dockerImage.push("latest")
+                    }
+                }   
+            }
+        }
 
         stage('Deploy to Kube Cluster  '){
             steps{
@@ -58,8 +59,8 @@ pipeline {
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
                     // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
                     // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_staging/deployment.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_staging/service.yaml'        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/deployment.yaml'
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/service.yaml'        
                 }
             }
         }
