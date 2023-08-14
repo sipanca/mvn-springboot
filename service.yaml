@@ -8,10 +8,10 @@ spec:
     app: hello-world
   ports:
     - protocol: TCP
-      port: 8082
-      targetPort: 8080
-      NodePort: 30003
-      
+      port: 8080
+      # targetPort: 8080
+      NodePort: 80080
+
   # selector:
   #   app: hello-world
   # # type: ClusterIP
