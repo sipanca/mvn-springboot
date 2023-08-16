@@ -53,21 +53,21 @@ pipeline {
             }
         }
 
-        stage ('Release') {
-            when {
-                allof {
-                    sh 'rm -rf *'
-                    git branch: gitBranch,
-                    expression { param.RELEASE }
-                    credentialsId: 'Github-Connection',
-                    url: gitUrl
-                }               
-            }
-            steps {
-                sh "mvn -B release:prepare"
-                sh "mvn -B release:perform"
-            }
-        }
+        // stage ('Release') {
+        //     when {
+        //         allof {
+        //             sh 'rm -rf *'
+        //             git branch: gitBranch,
+        //             expression { param.RELEASE }
+        //             credentialsId: 'Github-Connection',
+        //             url: gitUrl
+        //         }               
+        //     }
+        //     steps {
+        //         sh "mvn -B release:prepare"
+        //         sh "mvn -B release:perform"
+        //     }
+        // }
 
         stage('Docker Build') {
             steps {
