@@ -35,7 +35,7 @@ pipeline {
             steps {
                 sh 'rm -rf *'
                 git branch: gitBranch,
-                credentialsId: 'Github Connection',
+                credentialsId: 'Github-Connection',
                 url: gitUrl
             }
         }
