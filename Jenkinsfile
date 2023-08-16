@@ -55,11 +55,10 @@ pipeline {
                 allof {
                     sh 'rm -rf *'
                     git branch: gitBranch,
+                    expression { param.RELEASE }
                     credentialsId: 'Github Connection',
                     url: gitUrl
-                    expression { param.RELEASE }
-                }
-                    
+                }               
             }
             steps {
                 sh "mvn -B release:prepare"
@@ -84,7 +83,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kube Cluster  '){
+        stage('Deploy to Kube Cluster'){
             steps{
                 script{
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
@@ -94,6 +93,26 @@ pipeline {
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_master/service.yaml'        
                 }
             }
+
+        }
+    }
+
+    post {
+        always {
+            deleteDir()
+        }
+
+        success {
+            echo "Release Success"
+        }
+
+        failure {
+            echo "Release failed"
+        }
+
+        cleanup {
+            echo "Clean up in post workspace"
+            cleanWs()
         }
     }
 }
