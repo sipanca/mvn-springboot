@@ -1,26 +1,35 @@
 pipeline {
-    agent any //{
-    // kubernetes {
-    //   	cloud 'devops-cluster-dev'
-    //   	defaultContainer 'worker'
-    //   }
-    // }
+    agent any 
 
     tools{
         maven 'Maven 3.9.4'
     }
 
-    environment {
-        // DATE = new Date().format('yy.M')
-        // TAG = "${DATE}.${BUILD_NUMBER}"
+    triggers {
+        pollSCM "* * * * *"
+    }
 
+    options {
+        timestamps ()
+        ansiColor("xterm")
+    }
+
+    parameters {
+        boleanParam(
+            name: "RELEASE",
+            description: "Build a release from current commit.",
+            defaultValue: false)
+    }
+
+    environment {
         dockerimagename = "pancaaa/springboot-app"
         dockerImage = ""
         registryCredential = 'dockerhublogin'
 
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
-        gitBranch = 'master'
+        gitBranch = 'development'
     }
+
     stages {
         stage('Checkout Source') {
             steps {
@@ -30,12 +39,34 @@ pipeline {
                 url: gitUrl
             }
         }
-        stage ('Build Project') {
+        
+        stage ('Build & Deploy SNAPSHOT') {
             steps {
-                sh 'mvn package spring-boot:repackage'
-                sh 'mvn clean install -DskipTests'
+                
+                sh "mvn -B deploy"
+
+                // sh 'mvn package spring-boot:repackage'
+                // sh 'mvn clean install -DskipTests'
             }
         }
+
+        stage ('Release') {
+            when {
+                allof {
+                    sh 'rm -rf *'
+                    git branch: gitBranch,
+                    credentialsId: 'Github Connection',
+                    url: gitUrl
+                    expression { param.RELEASE }
+                }
+                    
+            }
+            steps {
+                sh "mvn -B release:prepare"
+                sh "mvn -B release:perform"
+            }
+        }
+
         stage('Docker Build') {
             steps {
                 script {
