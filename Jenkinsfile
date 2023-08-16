@@ -59,7 +59,7 @@ pipeline {
                     sh 'rm -rf *'
                     git branch: gitBranch,
                     expression { param.RELEASE }
-                    credentialsId: 'Github Connection',
+                    credentialsId: 'Github-Connection',
                     url: gitUrl
                 }               
             }
