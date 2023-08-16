@@ -14,12 +14,12 @@ pipeline {
         ansiColor("xterm")
     }
 
-    parameters {
-        boleanParam(
-            name: "RELEASE",
-            description: "Build a release from current commit.",
-            defaultValue: false)
-    }
+    // parameters {
+    //     boleanParam(
+    //         name: "RELEASE",
+    //         description: "Build a release from current commit.",
+    //         defaultValue: false)
+    // }
 
     environment {
         appsName = "springboot-app"
