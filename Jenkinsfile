@@ -22,12 +22,15 @@ pipeline {
     }
 
     environment {
-        dockerimagename = "pancaaa/springboot-app"
-        dockerImage = ""
+        appsName = "springboot-app"
+        registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
+        dockerImage = ""
 
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
         gitBranch = 'development'
+
+        BUILD_NUMBER = "development"
     }
 
     stages {
@@ -69,15 +72,16 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    dockerImage = docker.build dockerimagename
+                    dockerImage = docker.build registry + ":$env.BUILD_NUMBER"
                 }
             }
         }
 	    stage('Pushing Image') {
             steps{
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                    dockerImage.push("latest")
+                    docker.withRegistry('', registryCredential) {
+                    dockerImage.push()
+                    sh "docker rmi -f $registry:$env.BUILD_NUMBER"
                     }
                 }   
             }
