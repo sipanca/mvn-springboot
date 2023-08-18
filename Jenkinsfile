@@ -50,8 +50,8 @@ pipeline {
             steps{
                 script{
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
+                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
+                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'        
                 }
