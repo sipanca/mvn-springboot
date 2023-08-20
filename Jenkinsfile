@@ -1,19 +1,13 @@
 pipeline {
     agent any 
 
-    tools{
-        maven 'Maven 3.9.4'
-    }
-
     environment {
         appsName = "springboot-app"
         registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
         dockerImage = ""
-
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
         gitBranch = 'development'
-
         BUILD_NUMBER = "development"
     }
 
@@ -50,10 +44,9 @@ pipeline {
             steps{
                 script{
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
-                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
-                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/deployment.yaml'        
                 }
             }
 
