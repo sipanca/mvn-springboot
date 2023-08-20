@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: hello-world
-        image: pancaaa/springboot-app:development
+        image: pancaaa/springboot-app:latest
         imagePullPolicy: Always
         resources:
           limits:
