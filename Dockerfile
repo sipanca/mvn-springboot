@@ -1,8 +1,7 @@
 ## Build Project Springboot
 FROM maven:3.9-eclipse-temurin-17-alpine AS builder
 WORKDIR /build
-COPY src .
-copy pom.xml .
+COPY . .
 RUN mvn clean package -DskipTests
  
 ## Build Docker Image
