@@ -1,15 +1,25 @@
 pipeline {
     agent any 
 
-    environment {
-        appsName = "springboot-app"
-        registry = "pancaaa/$appsName"
-        registryCredential = 'dockerhublogin'
-        dockerImage = ""
-        gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
-        gitBranch = 'development'
-        BUILD_NUMBER = "development"
-    }
+    // Build Number for Docker Image
+    appsName = "springboot-app"
+    version = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+    dockerImage = "${appsName}:${version}"
+    registry = "pancaaa/$appsName"
+    registryCredential = 'dockerhublogin'
+
+    // environment {
+    //     appsName = "springboot-app"
+    //     build_number = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+    //     registry = "pancaaa/$appsName"
+    //     registryCredential = 'dockerhublogin'
+    //     dockerImage = ""
+    //     gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
+    //     gitBranch = 'development'
+
+    //     // BUILD_NUMBER = "development"
+        
+    // }
 
     stages {
         stage('Checkout Source') {
@@ -24,7 +34,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$env.BUILD_NUMBER"
+                    dockerImage = docker.build registry + ":$version"
                 }
             }
         }
@@ -34,7 +44,7 @@ pipeline {
                 script {
                     docker.withRegistry('', registryCredential) {
                     dockerImage.push()
-                    sh "docker rmi -f $registry:$env.BUILD_NUMBER"
+                    sh "docker rmi -f $registry:$version"
                     }
                 }   
             }
@@ -46,7 +56,7 @@ pipeline {
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/deployment.yaml'        
+                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/deployment.yaml'        
                 }
             }
 
