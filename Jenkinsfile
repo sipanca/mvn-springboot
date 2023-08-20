@@ -4,7 +4,7 @@ pipeline {
     // Build Number for Docker Image
     environment {
         appsName = "springboot-app"
-        version =  "${BUILD_NUMBER} " //"${env.BUILD_ID}-${env.GIT_COMMIT}"
+        version =  "${BUILD_NUMBER}" //"${env.BUILD_ID}-${env.GIT_COMMIT}"
         dockerImage = "${appsName}:${version}"
         registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
