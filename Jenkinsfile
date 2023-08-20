@@ -8,7 +8,8 @@ pipeline {
         dockerImage = "${appsName}:${version}"
         registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
-
+        gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
+        gitBranch = 'development'
     }
     
     // environment {
