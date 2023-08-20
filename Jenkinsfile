@@ -2,12 +2,15 @@ pipeline {
     agent any 
 
     // Build Number for Docker Image
-    appsName = "springboot-app"
-    version = "${env.BUILD_ID}-${env.GIT_COMMIT}"
-    dockerImage = "${appsName}:${version}"
-    registry = "pancaaa/$appsName"
-    registryCredential = 'dockerhublogin'
+    environment {
+        appsName = "springboot-app"
+        version = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+        dockerImage = "${appsName}:${version}"
+        registry = "pancaaa/$appsName"
+        registryCredential = 'dockerhublogin'
 
+    }
+    
     // environment {
     //     appsName = "springboot-app"
     //     build_number = "${env.BUILD_ID}-${env.GIT_COMMIT}"
