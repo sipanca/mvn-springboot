@@ -4,8 +4,8 @@ pipeline {
     // Build Number for Docker Image
     environment {
         appsName = "springboot-app"
-        version = "${date:yyyyMMdd}_${Build.BuildId}"
-        dockerImage = "${appsName}:${version}"
+        version = "${git log -1 --pretty=format:%h}"
+        dockerImage = ""
         registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
