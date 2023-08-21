@@ -48,7 +48,13 @@ pipeline {
                     sh ''' 
                     #!/bin/bash
                     sed -i "s/development/$version/g" deployment/deployment.yaml
-                    kubectl config current-context && kubectl apply -f deployment/deployment.yaml
+                    kubectl config current-context && kubectl apply -f deployment/deployment.yaml  
+                    '''
+
+                    sh '''
+                    #!/bin/bash
+                    echo "Checking deployment status"
+                    kubectl rollout status deployment/hello-world -n default --timeout=60s
                     '''
                 }
             }
