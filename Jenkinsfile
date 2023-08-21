@@ -51,6 +51,7 @@ pipeline {
                     sh ''' 
                     #!/bin/bash
                     sed -i "s/development/$version/g" deployment/deployment.yaml
+                    cat deployment/deployment.yaml
                     kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml
                     kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/hello-world
                     '''
