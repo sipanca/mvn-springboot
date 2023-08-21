@@ -47,6 +47,7 @@ pipeline {
                 script{
                     sh ''' 
                     #!/bin/bash
+                    kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world
                     sed -i "s/development/$version/g" deployment/deployment.yaml
                     kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml
                     kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/hello-world
