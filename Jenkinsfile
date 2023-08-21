@@ -4,7 +4,7 @@ pipeline {
     // Build Number for Docker Image
     environment {
         appsName = "springboot-app"
-        version =  "development" //"${env.GIT_COMMIT}"
+        version =  "development"
         dockerImage = "${appsName}:${version}"
         registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
@@ -12,24 +12,11 @@ pipeline {
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
         gitBranch = 'development'
     }
-    
-    // environment {
-    //     appsName = "springboot-app"
-    //     build_number = "${env.BUILD_ID}-${env.GIT_COMMIT}"
-    //     registry = "pancaaa/$appsName"
-    //     registryCredential = 'dockerhublogin'
-    //     dockerImage = ""
-    //     gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
-    //     gitBranch = 'development'
-
-    //     // BUILD_NUMBER = "development"
-        
-    // }
 
     stages {
         stage('Checkout Source') {
             steps {
-                // sh 'rm -rf *'
+                sh 'rm -rf *'
                 git branch: gitBranch,
                 credentialsId: 'Github-Connection',
                 url: gitUrl
@@ -59,10 +46,9 @@ pipeline {
         stage('Deploy to Kube Cluster'){
             steps{
                 script{
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'
-                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/deployment.yaml'        
+                    sh 'kubectl --kubeconfig=~/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
+                    sh 'kubectl --kubeconfig=~/.kube/dev-cluster/config apply -f deployment/service.yaml'
+                    sh 'kubectl --kubeconfig=~/.kube/dev-cluster/config rollout status deployment/deployment-hello-world'      
                 }
             }
 
