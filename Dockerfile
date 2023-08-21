@@ -5,7 +5,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
-RUN cat /src/main/java/com/example/springboot/HelloController.java
+RUN cat /app/src/main/java/com/example/springboot/HelloController.java
  
 ## Build Docker Image
 FROM eclipse-temurin:17.0.5_8-jre-alpine@sha256:02c04793fa49ad5cd193c961403223755f9209a67894622e05438598b32f210e
