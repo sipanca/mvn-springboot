@@ -14,11 +14,6 @@ spec:
     spec:
       containers:
       - name: hello-world
-        image: pancaaa/springboot-app:latest
-        imagePullPolicy: Always
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "256m"
+        image: pancaaa/springboot-app:development
         ports:
         - containerPort: 8080

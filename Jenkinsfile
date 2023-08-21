@@ -1,67 +1,77 @@
 pipeline {
-    agent any //{
-    // kubernetes {
-    //   	cloud 'devops-cluster-dev'
-    //   	defaultContainer 'worker'
-    //   }
-    // }
-
-    tools{
-        maven 'Maven 3.9.4'
-    }
+    agent any 
 
     environment {
-        // DATE = new Date().format('yy.M')
-        // TAG = "${DATE}.${BUILD_NUMBER}"
-        dockerimagename = "pancaaa/springboot-app"
-        dockerImage = ""
+        appsName = "springboot-app"
+        version =  "${GIT_COMMIT}"
+        dockerImage = "${appsName}:${version}"
+        registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
 
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
-        gitBranch = 'staging'
+        gitBranch = 'development'
     }
+
     stages {
         stage('Checkout Source') {
             steps {
                 sh 'rm -rf *'
                 git branch: gitBranch,
-                credentialsId: 'Github Connection',
+                credentialsId: 'Github-Connection',
                 url: gitUrl
             }
         }
-        stage ('Build Project') {
-            steps {
-                sh 'mvn package spring-boot:repackage'
-                sh 'mvn clean install -DskipTests'
-            }
-        }
-        // stage('Docker Build') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build dockerimagename
-        //         }
-        //     }
-        // }
-	    // stage('Pushing Image') {
-        //     steps{
-        //         script {
-        //             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-        //             dockerImage.push("latest")
-        //             }
-        //         }   
-        //     }
-        // }
 
-        stage('Deploy to Kube Cluster  '){
-            steps{
-                script{
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
-                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
-                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_staging/deployment.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f /var/lib/jenkins/workspace/Demo_Deploy_staging/service.yaml'        
+        stage('Docker Build') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$version"
+
                 }
             }
+        }
+
+	    stage('Pushing Image') {
+            steps{
+                script {
+                    docker.withRegistry('', registryCredential) {
+                    dockerImage.push()
+                    sh "docker rmi -f $registry:$version"
+                    }
+                }   
+            }
+        }
+
+        stage('Deploy to Kube Cluster'){
+            steps{
+                script{
+                    sh ''' 
+                    #!/bin/bash
+                    sed -i "s/development/$version/g" deployment/deployment.yaml
+                    kubectl config current-context && kubectl apply -f deployment/deployment.yaml
+                    '''
+                }
+            }
+
+        }
+    }
+
+    post {
+        always {
+            deleteDir()
+        }
+
+        success {
+            echo "Release Success"
+        }
+
+        failure {
+            echo "Release failed"
+        }
+
+        cleanup {
+            echo "Clean up in post workspace"
+            cleanWs()
         }
     }
 }
