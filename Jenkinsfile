@@ -49,7 +49,7 @@ pipeline {
                     // // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
                     // // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
                     sh ''' 
-                    sed -i 's/development/${GIT_COMMIT}/g' deployment/deployment.yaml
+                    sed -i 's/development/$versssion/g' deployment/deployment.yaml
                     kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml
                     kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/hello-world
                     '''
