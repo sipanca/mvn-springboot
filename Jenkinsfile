@@ -53,11 +53,8 @@ pipeline {
 
                     sh '''
                     #!/bin/bash
-                    kubectl rollout status deployment/hello-world -n default --timeout=30s
-                    echo "$RESULT" | grep -q "successfully"
-                    if [ "$?" != "0" ]; then
-                        echo "rollout failed"
-                    fi
+                    echo "Checking deployment status"
+                    kubectl rollout status deployment/hello-world -n default --timeout=60s
                     '''
                 }
             }
