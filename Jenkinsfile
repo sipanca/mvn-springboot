@@ -9,7 +9,7 @@ pipeline {
         registryCredential = 'dockerhublogin'
 
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
-        gitBranch = 'development'
+        gitBranch = 'master'
     }
 
     stages {
@@ -47,7 +47,7 @@ pipeline {
                 script{
                     sh ''' 
                     #!/bin/bash
-                    sed -i "s/development/$version/g" deployment/deployment.yaml
+                    sed -i "s/latest/$version/g" deployment/deployment.yaml
                     kubectl config current-context && kubectl apply -f deployment/deployment.yaml  
                     '''
 

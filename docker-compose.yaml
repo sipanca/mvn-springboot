@@ -1,7 +1,0 @@
-version: '2.4'
-services:
-  springboot:
-    image: pancaaa/springboot-app:latest
-    container_name: testing
-    ports:
-      - 8080:8080
