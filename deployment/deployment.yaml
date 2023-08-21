@@ -2,13 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-world
+  labels:
+    app: hello-world
+    role: rolling-update
 spec:
   replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 5
-      maxUnavailable: 0
+      maxSurge: 50%
+      maxUnavailable: 50%
   selector:
     matchLabels:
       app: hello-world
@@ -16,9 +19,19 @@ spec:
     metadata:
       labels:
         app: hello-world
+        role: rolling-update
     spec:
       containers:
       - name: hello-world
         image: pancaaa/springboot-app:development
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+
