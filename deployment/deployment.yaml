@@ -7,8 +7,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 3
-      maxUnavailable: 1
+      maxSurge: 5
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: hello-world
