@@ -4,27 +4,13 @@ pipeline {
     // Build Number for Docker Image
     environment {
         appsName = "springboot-app"
-        version = "${date:yyyyMMdd}_${Build.BuildId}" //"${BUILD_NUMBER}" //"${env.BUILD_ID}-${env.GIT_COMMIT}"
+        version = "${date:yyyyMMdd}_${Build.BuildId}"
         dockerImage = "${appsName}:${version}"
         registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
-
         gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
         gitBranch = 'development'
     }
-    
-    // environment {
-    //     appsName = "springboot-app"
-    //     build_number = "${env.BUILD_ID}-${env.GIT_COMMIT}"
-    //     registry = "pancaaa/$appsName"
-    //     registryCredential = 'dockerhublogin'
-    //     dockerImage = ""
-    //     gitUrl = 'https://github.com/war3wolf/mvn-springboot.git'
-    //     gitBranch = 'development'
-
-    //     // BUILD_NUMBER = "development"
-        
-    // }
 
     stages {
         stage('Checkout Source') {
@@ -60,8 +46,7 @@ pipeline {
                 script{
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config config current-context'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'
-                    // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/deployment.yaml'        
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'       
                 }
             }
 
