@@ -4,7 +4,7 @@ pipeline {
     // Build Number for Docker Image
     environment {
         appsName = "springboot-app"
-        version =  "${BUILD_NUMBER}"
+        version =  "${BUILD_NUMBER}+${GIT_COMMIT}"
         dockerImage = "${appsName}:${version}"
         registry = "pancaaa/$appsName"
         registryCredential = 'dockerhublogin'
@@ -48,7 +48,7 @@ pipeline {
                 script{
                     // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete deployment hello-world'
                     // sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config delete service hello-world'
-                    sh "sed -i 's/deployment/$env.BUILD_NUMBER/g' deployment/deployment.yaml"
+                    sh "sed -i 's/deployment/$version/g' deployment/deployment.yaml"
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/hello-world'      
                 }

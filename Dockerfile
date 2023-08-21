@@ -1,8 +1,9 @@
 ## Build Project Springboot
 FROM maven:3.9-eclipse-temurin-17-alpine AS builder
 WORKDIR /app
-COPY src ./src
 COPY pom.xml .
+RUN mvn dependency:go-offline
+COPY src ./src
 RUN mvn clean package -DskipTests
 RUN ls -la 
  
