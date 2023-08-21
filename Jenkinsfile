@@ -48,7 +48,7 @@ pipeline {
                 script{
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/deployment.yaml'
                     sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config apply -f deployment/service.yaml'
-                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/deployment-hello-world'      
+                    sh 'kubectl --kubeconfig=/home/jenkins/.kube/dev-cluster/config rollout status deployment/hello-world'      
                 }
             }
 
