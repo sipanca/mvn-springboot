@@ -25,6 +25,9 @@ spec:
       - name: hello-world
         image: pancaaa/springboot-app:development
         imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: "/data"
+            name: hello-pd
         ports:
         - containerPort: 8080
         readinessProbe:
@@ -34,4 +37,8 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
           successThreshold: 1
+      volumes:
+      - name : hello-pd
+        persistentVolumeClaim:
+          claimName: lhw-claim
 
