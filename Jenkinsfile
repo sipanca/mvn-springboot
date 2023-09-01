@@ -54,7 +54,7 @@ pipeline {
                     sh '''
                     #!/bin/bash
                     echo "Checking deployment status"
-                    kubectl rollout status deployment/hello-world -n default --timeout=60s
+                    kubectl rollout status deployment/hello-world -n default --timeout=30s
                     '''
                 }
             }
