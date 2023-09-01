@@ -40,5 +40,5 @@ spec:
       volumes:
       - name : hello-pd
         persistentVolumeClaim:
-          claimName: lhw-claim
+          claimName: pvc-apps-1
 
