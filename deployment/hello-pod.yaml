@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+  labels:
+    name: hello-world
+spec:
+  containers:
+  - name: hello-world
+    image: pancaaa/springboot-app:development
+    volumeMounts:
+        - mountPath: "/app"
+          name: hello-pd
+  volumes:
+    - name : hello-pd
+        persistentVolumeClaim:
+          claimName: pvc-apps-1
