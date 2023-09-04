@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Pod
+kind: Deployment
 metadata:
   name: hello-world
   labels:
@@ -22,25 +22,25 @@ spec:
         role: rolling-update
     spec:
       containers:
-      - name: hello-world
-        image: pancaaa/springboot-app:development
-        imagePullPolicy: Always
-        volumeMounts:
-          - mountPath: "/data"
-            name: hello-pd
-        ports:
-        - containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          successThreshold: 1
+        - name: hello-world
+          image: pancaaa/springboot-app:development
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: "/data"
+              name: hello-pd
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
       volumes:
-      - name : hello-pd
-        persistentVolumeClaim:
-          claimName: pvc-apps-1
+        - name: hello-pd
+          persistentVolumeClaim:
+            claimName: pvc-apps-1
 ---
 apiVersion: v1
 kind: Service
@@ -54,6 +54,3 @@ spec:
     - protocol: TCP
       port: 8080
       nodePort: 30006
-
-
-
