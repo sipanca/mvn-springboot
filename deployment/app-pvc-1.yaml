@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-apps-1
+  namespace: hello
 spec:
   resources:
     requests:
